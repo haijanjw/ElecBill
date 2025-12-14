@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ElecBill</string>
+
+    <string name="title">Electricity Bill Estimator</string>
+    <string name="enter_units">Enter electricity used (kWh)</string>
+    <string name="calculate_save">CALCULATE &amp; SAVE</string>
+    <string name="view_bills">VIEW SAVED BILLS</string>
+    <string name="about_dev">ABOUT DEVELOPER</string>
+
+    <string name="about_title">About This App</string>
+    <string name="full_name">Full Name: Nur Haija Najwa Binti Basarudin</string>
+    <string name="student_id">Student ID: 2023213136</string>
+    <string name="course">Course: ICT602 Mobile Technology and Development</string>
+</resources>

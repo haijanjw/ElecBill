@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme -->
+    <style name="Base.Theme.ElecBill" parent="Theme.Material3.DayNight">
+        <!-- You can customize colors later -->
+    </style>
+
+    <style name="Theme.ElecBill" parent="Base.Theme.ElecBill" />
+</resources>
