@@ -1,32 +1,71 @@
 package com.example.elecbill;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.widget.*;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
 
-    ArrayList<Bill> list = new ArrayList<>();
-    DBHelper db;
+    ListView listView;
+    DBHelper dbHelper;
+    ArrayList<Bill> billList;
 
     @Override
-    protected void onCreate(Bundle b) {
-        super.onCreate(b);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        db = new DBHelper(this);
-        ListView lv = findViewById(R.id.listView);
+        listView = findViewById(R.id.listView);
+        dbHelper = new DBHelper(this);
+        billList = new ArrayList<>();
 
-        Cursor c = db.getAllBills();
-        while (c.moveToNext()) {
-            list.add(new Bill(
-                    c.getString(1),
-                    c.getDouble(5)
-            ));
+        loadBills();
+
+        // **FIX:** Moved the setOnItemClickListener inside the onCreate method
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bill selectedBill = billList.get(position);
+
+                Intent intent = new Intent(ListActivity.this, DetailActivity.class);
+                intent.putExtra("month", selectedBill.getMonth());
+                intent.putExtra("finalCost", selectedBill.getFinalCost());
+
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void loadBills() {
+        Cursor cursor = dbHelper.getAllBills();
+
+        if (cursor == null || cursor.getCount() == 0) {
+            Toast.makeText(this, "No bills found", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        lv.setAdapter(new BillAdapter(this, list));
+        while (cursor.moveToNext()) {
+            String month = cursor.getString(
+                    cursor.getColumnIndexOrThrow("month")
+            );
+            double finalCost = cursor.getDouble(
+                    cursor.getColumnIndexOrThrow("final")
+            );
+
+            billList.add(new Bill(month, finalCost));
+        }
+
+        cursor.close();
+
+        BillAdapter adapter = new BillAdapter(this, billList);
+        listView.setAdapter(adapter);
     }
 }

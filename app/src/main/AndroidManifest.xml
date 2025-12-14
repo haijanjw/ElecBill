@@ -6,12 +6,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="ElecBill"
+        android:supportsRtl="true"
         android:theme="@style/Theme.ElecBill">
 
-        <activity android:name=".AboutActivity" />
-        <activity android:name=".ListActivity" />
-        <activity android:name=".DetailActivity" />
-
+        <!-- Main Screen -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -20,6 +18,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- View Saved Bills -->
+        <activity
+            android:name=".ListActivity"
+            android:exported="false" />
+
+        <!-- Bill Detail Screen -->
+        <activity
+            android:name=".DetailActivity"
+            android:exported="false" />
+
+        <!-- About Developer -->
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false" />
 
     </application>
 

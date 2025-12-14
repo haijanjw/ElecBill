@@ -1,27 +1,57 @@
 package com.example.elecbill;
 
 import android.content.Context;
-import android.view.*;
-import android.widget.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 
-public class BillAdapter extends ArrayAdapter<Bill> {
+public class BillAdapter extends BaseAdapter {
 
-    public BillAdapter(Context c, ArrayList<Bill> list) {
-        super(c, 0, list);
+    private Context context;
+    private ArrayList<Bill> billList;
+
+    public BillAdapter(Context context, ArrayList<Bill> billList) {
+        this.context = context;
+        this.billList = billList;
     }
 
     @Override
-    public View getView(int pos, View v, ViewGroup parent) {
-        if (v == null)
-            v = LayoutInflater.from(getContext())
-                    .inflate(android.R.layout.simple_list_item_2, parent, false);
+    public int getCount() {
+        return billList.size();
+    }
 
-        Bill b = getItem(pos);
-        ((TextView)v.findViewById(android.R.id.text1)).setText(b.month);
-        ((TextView)v.findViewById(android.R.id.text2))
-                .setText(String.format("Final Cost: RM %.2f", b.finalCost));
+    @Override
+    public Object getItem(int position) {
+        return billList.get(position);
+    }
 
-        return v;
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context)
+                    .inflate(R.layout.bill_item, parent, false);
+        }
+
+        TextView txtMonth = convertView.findViewById(R.id.txtMonth);
+        TextView txtFinal = convertView.findViewById(R.id.txtFinalCost);
+
+        Bill bill = billList.get(position);
+
+        txtMonth.setText(bill.getMonth());
+        txtFinal.setText(
+                "Final Cost: RM " + String.format("%.2f", bill.getFinalCost())
+        );
+
+        return convertView;
     }
 }
